@@ -461,6 +461,33 @@ static __hwloc_inline long hwloc_move_pages(int pid __hwloc_attribute_unused,
 #endif
 }
 
+#ifndef __NR_statmount
+# define __NR_statmount 457
+#endif
+static __hwloc_inline long hwloc_statmount(void) // TODO: add args later
+{
+#if (defined __NR_statmount) && (defined HWLOC_HAVE_SYSCALL)
+  /** return syscall(__NR_statmount, ...); */
+#else
+#warning Couldn't find __NR_statmount syscall number,
+  errno = ENOSYS;
+  return -1;
+#endif
+}
+
+#ifndef __NR_listmount
+# define __NR_listmount 458
+#endif
+static __hwloc_inline long hwloc_listmount(void) // TODO: add args later
+{
+#if (defined __NR_listmount) && (defined HWLOC_HAVE_SYSCALL)
+  /** return syscall(__NR_listmount, ...); */
+#else
+#warning Couldn't find __NR_listmount syscall number,
+  errno = ENOSYS;
+  return -1;
+#endif
+}
 
 /* Added for ntohl() */
 #include <arpa/inet.h>
