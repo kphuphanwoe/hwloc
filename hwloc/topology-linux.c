@@ -462,32 +462,107 @@ static __hwloc_inline long hwloc_move_pages(int pid __hwloc_attribute_unused,
 }
 
 #ifndef __NR_statmount
-# define __NR_statmount 457
+# ifdef __i386__
+#  define __NR_statmount 457
+# elif defined(__x86_64__)
+#  define __NR_statmount 457
+# elif defined(__ia64__)
+#  define __NR_statmount 457
+# elif defined(__hppa__)
+#  define __NR_statmount 457
+# elif defined(__alpha__)
+   /* sys_ni_syscall */
+# elif defined(__s390__) || defined(__s390x__)
+#  define __NR_statmount 457
+# elif defined(__sparc__)
+#  define __NR_statmount 457
+# elif defined(__m68k__)
+#  define __NR_statmount 457
+# elif defined(__powerpc__) || defined(__ppc__) || defined(__PPC__) || defined(__powerpc64__) || defined(__ppc64__)
+#  define __NR_statmount 457
+# elif defined(__aarch64__)
+#  define __NR_statmount 457
+# elif defined(__riscv)
+#  define __NR_statmount 457
+# elif defined(__arm__)
+#  define __NR_statmount 457
+# elif defined(__cris__)
+   /* sys_ni_syscall */
+# elif defined(__loongarch__)
+#  define __NR_statmount 457
+# elif defined(__mips__) && _MIPS_SIM == _ABI64
+#  define __NR_statmount 5457
+# elif defined(__mips__) && _MIPS_SIM == _ABIN32
+#  define __NR_statmount 6457
+# elif defined(__mips__) && _MIPS_SIM == _ABIO32
+#  define __NR_statmount 4457
+# endif
 #endif
-static __hwloc_inline long hwloc_statmount(void) // TODO: add args later
+static __hwloc_inline long hwloc_statmount(struct mnt_id_req *req __hwloc_attribute_unused,
+                        uint64_t *mnt_ids __hwloc_attribute_unused,
+                        size_t n __hwloc_attribute_unused,
+                        uint32_t flags __hwloc_attribute_unused)
 {
-#if (defined __NR_statmount) && (defined HWLOC_HAVE_SYSCALL)
-  /** return syscall(__NR_statmount, ...); */
+#if (defined __NR_statmount) && (defined HWLOC_HAVE_SYACALL)
+  return syscall(__NR_statmount, &req, mnt_ids, n, flags);
 #else
-#warning Couldn't find __NR_statmount syscall number,
+#warning Couldn't find __NR_statmount syscall number, retrieving mounts status won't be supported
   errno = ENOSYS;
   return -1;
 #endif
 }
 
 #ifndef __NR_listmount
-# define __NR_listmount 458
+# ifdef __i386__
+#  define __NR_listmount 458
+# elif defined(__x86_64__)
+#  define __NR_listmount 458
+# elif defined(__ia64__)
+#  define __NR_listmount 458
+# elif defined(__hppa__)
+#  define __NR_listmount 458
+# elif defined(__alpha__)
+   /* sys_ni_syscall */
+# elif defined(__s390__) || defined(__s390x__)
+#  define __NR_listmount 458
+# elif defined(__sparc__)
+#  define __NR_listmount 458
+# elif defined(__m68k__)
+#  define __NR_listmount 458
+# elif defined(__powerpc__) || defined(__ppc__) || defined(__PPC__) || defined(__powerpc64__) || defined(__ppc64__)
+#  define __NR_listmount 458
+# elif defined(__aarch64__)
+#  define __NR_listmount 458
+# elif defined(__riscv)
+#  define __NR_listmount 458
+# elif defined(__arm__)
+#  define __NR_listmount 458
+# elif defined(__cris__)
+   /* sys_ni_syscall */
+# elif defined(__loongarch__)
+#  define __NR_listmount 458
+# elif defined(__mips__) && _MIPS_SIM == _ABI64
+#  define __NR_listmount 5458
+# elif defined(__mips__) && _MIPS_SIM == _ABIN32
+#  define __NR_listmount 6458
+# elif defined(__mips__) && _MIPS_SIM == _ABIO32
+#  define __NR_listmount 4458
+# endif
 #endif
-static __hwloc_inline long hwloc_listmount(void) // TODO: add args later
+static __hwloc_inline long hwloc_listmount(struct mnt_id_req *req __hwloc_attribute_unused,
+                        uint64_t *mnt_ids __hwloc_attribute_unused,
+                        size_t n __hwloc_attribute_unused,
+                        uint32_t flags __hwloc_attribute_unused)
 {
 #if (defined __NR_listmount) && (defined HWLOC_HAVE_SYSCALL)
-  /** return syscall(__NR_listmount, ...); */
+  return syscall(__NR_listmount, &req, mnt_ids, n, flags);
 #else
-#warning Couldn't find __NR_listmount syscall number,
+#warning Couldn't find __NR_listmount syscall number, getting lists mounts id won't be supported
   errno = ENOSYS;
   return -1;
 #endif
 }
+
 
 /* Added for ntohl() */
 #include <arpa/inet.h>
